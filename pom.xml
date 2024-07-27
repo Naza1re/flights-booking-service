@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>flights-booking-service</name>
     <description>flights-booking-service</description>
+    <packaging>pom</packaging>
     <url/>
     <licenses>
         <license/>
