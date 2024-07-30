@@ -1,13 +1,15 @@
 package org.example.airportservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.airportservice.dto.AirportRequest;
 import org.example.airportservice.dto.AirportResponse;
+import org.example.airportservice.dto.AirportResponseList;
 import org.example.airportservice.service.AirportService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/airport")
@@ -17,10 +19,31 @@ public class AirportController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AirportResponse> getAirportById(@PathVariable Long id) {
-        return ResponseEntity.ok()
-                .body(airportService.getAirportById(id));
+        return ResponseEntity.ok(airportService.getAirportById(id));
+
     }
 
+    @GetMapping
+    public ResponseEntity<AirportResponseList> getAirports() {
+        return ResponseEntity.ok(airportService.getAllAirports());
+    }
 
+    @PostMapping
+    public ResponseEntity<AirportResponse> createAirport(@RequestBody AirportRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(airportService.createAirport(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AirportResponse> updateAirport(
+            @RequestBody AirportRequest request, @PathVariable Long id) {
+        return ResponseEntity.ok(airportService.updateAirport(id,request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AirportResponse> deleteAirport(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(airportService.deleteAirportById(id));
+    }
 
 }
